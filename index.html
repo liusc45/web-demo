@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Optimization - WebP vs JPG</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #2c3e50;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .image-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .image-card h2 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .image-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .stats {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+
+        .stats p {
+            margin: 0.5rem 0;
+        }
+
+        .key-points {
+            margin-top: 1rem;
+        }
+
+        .key-points ul {
+            list-style: none;
+        }
+
+        .key-points li {
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .key-points li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #3498db;
+        }
+
+        @media (max-width: 768px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+
+        .error {
+            color: #e74c3c;
+            text-align: center;
+            padding: 1rem;
+            background: #fde8e8;
+            border-radius: 4px;
+        }
+
+        .disadvantages {
+            margin-top: 3rem;
+        }
+
+        .disadvantage-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .disadvantage-card h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #2c3e50;
+        }
+
+        .disadvantages-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .disadvantage-box {
+            background: #fff3e0;
+            padding: 1.5rem;
+            border-radius: 8px;
+        }
+
+        .disadvantage-box h3 {
+            color: #d84315;
+            margin-bottom: 1rem;
+        }
+
+        .disadvantage-box ul {
+            list-style: none;
+        }
+
+        .disadvantage-box li {
+            margin: 0.8rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .disadvantage-box li::before {
+            content: "⚠";
+            position: absolute;
+            left: 0;
+            color: #e67e22;
+        }
+
+        @media (max-width: 768px) {
+            .disadvantages-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Image Format & Storage Comparison</h1>
+        
+        <div class="comparison">
+            <div class="image-card">
+                <h2>Standard JPG on Server</h2>
+                <img src="https://www.globalrefuge.org/wp-content/uploads/2024/11/DSCF3427-scaled.jpg" 
+                     alt="JPG Image"
+                     onload="this.setAttribute('data-loaded', Date.now())"
+                     onerror="this.parentElement.innerHTML += '<p class=\'error\'>Error loading image</p>'">
+                <div class="stats">
+                    <p><strong>Format:</strong> JPG</p>
+                    <p><strong>Storage:</strong> Web Server</p>
+                    <p><strong>Load Time:</strong> <span id="time1">Calculating...</span></p>
+                </div>
+                <div class="key-points">
+                    <ul>
+                        <li>Standard web server storage</li>
+                        <li>Traditional format</li>
+                        <li>Direct server resources</li>
+                        <li>Server bandwidth dependent</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="image-card">
+                <h2>WebP with S3 + CDN</h2>
+                <img src="https://globalrefuge.luam.tech/globalrefuge/2024%2F11%2FDSCF3427-scaled.webp"
+                     alt="WebP Image"
+                     onload="this.setAttribute('data-loaded', Date.now())"
+                     onerror="this.parentElement.innerHTML += '<p class=\'error\'>Error loading image</p>'">
+                <div class="stats">
+                    <p><strong>Format:</strong> WebP</p>
+                    <p><strong>Storage:</strong> S3 + Cloudflare CDN</p>
+                    <p><strong>Load Time:</strong> <span id="time2">Calculating...</span></p>
+                </div>
+                <div class="key-points">
+                    <ul>
+                        <li>Optimized storage on S3</li>
+                        <li>CDN distribution</li>
+                        <li>Better compression</li>
+                        <li>Faster global access</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="disadvantages">
+            <div class="disadvantage-card">
+                <h2>Disadvantages of Each Approach</h2>
+                <div class="disadvantages-grid">
+                    <div class="disadvantage-box">
+                        <h3>JPG on Server Issues</h3>
+                        <ul>
+                            <li>Server disk space gets filled quickly</li>
+                            <li>Slower loading times for distant users</li>
+                            <li>High bandwidth consumption</li>
+                            <li>Server resource drain</li>
+                            <li>Quality loss with each save</li>
+                            <li>No transparency support</li>
+                        </ul>
+                    </div>
+                    <div class="disadvantage-box">
+                        <h3>WebP + CDN Considerations</h3>
+                        <ul>
+                            <li>Additional service costs (S3 + CDN)</li>
+                            <li>Setup complexity</li>
+                            <li>Need for proper configuration</li>
+                            <li>Requires modern browser support</li>
+                            <li>Learning curve for deployment</li>
+                            <li>Content synchronization management</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() {
+            const imgs = document.getElementsByTagName('img');
+            for(let img of imgs) {
+                const loadTime = img.getAttribute('data-loaded');
+                const timeId = img.src.includes('webp') ? 'time2' : 'time1';
+                if(loadTime) {
+                    const loadDuration = loadTime - performance.timing.navigationStart;
+                    document.getElementById(timeId).textContent = `${loadDuration}ms`;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
